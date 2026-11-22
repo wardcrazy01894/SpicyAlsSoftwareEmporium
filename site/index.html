@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Spicy Al's Software Emporium: free daily games and other projects</title>
+    <meta
+      name="description"
+      content="Every game Spicy Al has made, in one place: daily map games, sports trivia, an all-time-team draft and a fake-money sportsbook. Free, no ads."
+    />
+    <meta property="og:title" content="Spicy Al's Software Emporium" />
+    <meta
+      property="og:description"
+      content="Every game Spicy Al has made, in one place. Free, no ads."
+    />
+    <meta property="og:type" content="website" />
+    <!-- The site URL lives in exactly these three tags. Changing domain: docs/OPERATIONS.md. -->
+    <link rel="canonical" href="https://wardcrazy01894.github.io/SpicyAlsSoftwareEmporium/" />
+    <meta property="og:url" content="https://wardcrazy01894.github.io/SpicyAlsSoftwareEmporium/" />
+    <meta
+      property="og:image"
+      content="https://wardcrazy01894.github.io/SpicyAlsSoftwareEmporium/og-image.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Figtree:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      // Apply a saved theme before first paint so the page never flashes.
+      try {
+        var t = localStorage.getItem('emporium:theme')
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="./" aria-label="Spicy Al's Software Emporium home">
+          <span class="brand-mark" aria-hidden="true">🌶️</span>
+          <span class="brand-name">Spicy Al's <span>Software Emporium</span></span>
+        </a>
+        <nav class="site-nav" aria-label="Main">
+          <a href="#games">Games</a>
+          <a href="#projects">Other projects</a>
+          <a href="https://github.com/wardcrazy01894" target="_blank" rel="noopener">GitHub</a>
+        </nav>
+        <div class="header-tools" data-needs-js hidden>
+          <button class="key" type="button" data-random>🎲 Surprise me</button>
+          <button
+            class="key theme-toggle"
+            type="button"
+            data-theme-toggle
+            aria-label="Color theme: auto"
+          >
+            <span data-theme-icon aria-hidden="true">🌗</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="wrap">
+        <section class="hero">
+          <h1>Fine homemade games, <em>served spicy.</em></h1>
+          <p class="lede">
+            Everything Spicy Al has built, in one place. Five games you can play right now in your
+            browser, mostly about sports and maps, all free with no ads. Pick one and go.
+          </p>
+          <p class="tally" data-tally hidden></p>
+        </section>
+
+        <section id="games" aria-labelledby="games-h">
+          <div class="section-head">
+            <h2 id="games-h">The games</h2>
+            <span class="section-note">4 with a new puzzle every day</span>
+          </div>
+
+          <div class="game-grid">
+            <article
+              class="game-card"
+              style="--c: #f5b301"
+              data-slug="campuspin-showdown"
+              data-daily
+            >
+              <a
+                class="game-shot"
+                href="https://campuspinshowdown.com/"
+                target="_blank"
+                rel="noopener"
+                data-play
+                tabindex="-1"
+                aria-hidden="true"
+              >
+                <img
+                  src="covers/campuspin-showdown.jpg"
+                  width="960"
+                  height="600"
+                  alt=""
+                  loading="eager"
+                  decoding="async"
+                />
+                <span class="played-badge">✓ Played today</span>
+              </a>
+              <div class="game-body">
+                <span class="cat">Geography</span>
+                <h3>CampusPin Showdown</h3>
+                <p>
+                  Where is Texas Tech? Drop a pin on a satellite map of the USA for five schools a
+                  day, then find out which college town you were actually looking for.
+                </p>
+                <ul class="chips">
+                  <li>Daily</li>
+                  <li>349 college towns</li>
+                  <li>Leaderboard</li>
+                </ul>
+                <div class="actions">
+                  <a
+                    class="key key-go"
+                    href="https://campuspinshowdown.com/"
+                    target="_blank"
+                    rel="noopener"
+                    data-play
+                    aria-label="Play CampusPin Showdown"
+                    >Play</a
+                  >
+                  <a
+                    class="key"
+                    href="https://github.com/wardcrazy01894/CampusPinShowdown"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="CampusPin Showdown source on GitHub"
+                    >Source</a
+                  >
+                </div>
+              </div>
+            </article>
+
+            <article class="game-card" style="--c: #ff9f1c" data-slug="whereheplay" data-daily>
+              <a
+                class="game-shot"
+                href="https://whereheplay.com/"
+                target="_blank"
+                rel="noopener"
+                data-play
+                tabindex="-1"
+                aria-hidden="true"
+              >
+                <img
+                  src="covers/whereheplay.jpg"
+                  width="960"
+                  height="600"
+                  alt=""
+                  loading="eager"
+                  decoding="async"
+                />
+                <span class="played-badge">✓ Played today</span>
+              </a>
+              <div class="game-body">
+                <span class="cat">Sports trivia</span>
+                <h3>WhereHePlay</h3>
+                <p>
+                  You get a photo of an NFL or NBA player. Name the college he played for. Tom Brady
+                  is a gimme; the backup tight end is not. Fewer hints, more points.
+                </p>
+                <ul class="chips">
+                  <li>Daily</li>
+                  <li>Free play</li>
+                  <li>3,161 players</li>
+                  <li>Leaderboard</li>
+                </ul>
+                <div class="actions">
+                  <a
+                    class="key key-go"
+                    href="https://whereheplay.com/"
+                    target="_blank"
+                    rel="noopener"
+                    data-play
+                    aria-label="Play WhereHePlay"
+                    >Play</a
+                  >
+                  <a
+                    class="key"
+                    href="https://github.com/wardcrazy01894/WhereHePlay"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="WhereHePlay source on GitHub"
+                    >Source</a
+                  >
+                </div>
+              </div>
+            </article>
+
+            <article class="game-card" style="--c: #22b3a6" data-slug="know-your-city" data-daily>
+              <a
+                class="game-shot"
+                href="https://knowyourcity.gg/"
+                target="_blank"
+                rel="noopener"
+                data-play
+                tabindex="-1"
+                aria-hidden="true"
+              >
+                <img
+                  src="covers/know-your-city.jpg"
+                  width="960"
+                  height="600"
+                  alt=""
+                  loading="eager"
+                  decoding="async"
+                />
+                <span class="played-badge">✓ Played today</span>
+              </a>
+              <div class="game-body">
+                <span class="cat">Geography</span>
+                <h3>Know Your City</h3>
+                <p>
+                  Pick a city and get five local spots a day: landmarks, bars, restaurants. Drop a
+                  pin on the satellite map and see how well you really know your town.
+                </p>
+                <ul class="chips">
+                  <li>Daily</li>
+                  <li>St. Pete · Seattle · Chicago · Ann Arbor · State College</li>
+                </ul>
+                <div class="actions">
+                  <a
+                    class="key key-go"
+                    href="https://knowyourcity.gg/"
+                    target="_blank"
+                    rel="noopener"
+                    data-play
+                    aria-label="Play Know Your City"
+                    >Play</a
+                  >
+                  <a
+                    class="key"
+                    href="https://github.com/wardcrazy01894/KnowYourCity"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Know Your City source on GitHub"
+                    >Source</a
+                  >
+                </div>
+              </div>
+            </article>
+
+            <article
+              class="game-card"
+              style="--c: #4c8dff"
+              data-slug="your-school-all-stars"
+              data-daily
+            >
+              <a
+                class="game-shot"
+                href="https://wardcrazy01894.github.io/YourSchoolAllStars/"
+                target="_blank"
+                rel="noopener"
+                data-play
+                tabindex="-1"
+                aria-hidden="true"
+              >
+                <img
+                  src="covers/your-school-all-stars.jpg"
+                  width="960"
+                  height="600"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="played-badge">✓ Played today</span>
+              </a>
+              <div class="game-body">
+                <span class="cat">Sports draft</span>
+                <h3>YourSchoolAllStars</h3>
+                <p>
+                  Spin a four-year window of your school's history and draft one player per round
+                  into an all-time lineup. Build it well enough and you go 40–0.
+                </p>
+                <ul class="chips">
+                  <li>Daily</li>
+                  <li>Basketball + football</li>
+                  <li>6 schools</li>
+                  <li>Leaderboard</li>
+                </ul>
+                <div class="actions">
+                  <a
+                    class="key key-go"
+                    href="https://wardcrazy01894.github.io/YourSchoolAllStars/"
+                    target="_blank"
+                    rel="noopener"
+                    data-play
+                    aria-label="Play YourSchoolAllStars"
+                    >Play</a
+                  >
+                  <a
+                    class="key"
+                    href="https://github.com/wardcrazy01894/YourSchoolAllStars"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="YourSchoolAllStars source on GitHub"
+                    >Source</a
+                  >
+                </div>
+              </div>
+            </article>
+
+            <article class="game-card" style="--c: #e0431c" data-slug="spicy-betting-simulator">
+              <a
+                class="game-shot"
+                href="https://spicybetting.wardcrazy01894.workers.dev/"
+                target="_blank"
+                rel="noopener"
+                data-play
+                tabindex="-1"
+                aria-hidden="true"
+              >
+                <img
+                  src="covers/spicy-betting-simulator.jpg"
+                  width="960"
+                  height="600"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              <div class="game-body">
+                <span class="cat">Sportsbook, minus the money</span>
+                <h3>Spicy Betting Simulator</h3>
+                <p>
+                  Real lines, real odds, fake money. Start with $1,000, bet this week's games at the
+                  prices the books are posting, and let the leaderboard settle the argument.
+                </p>
+                <ul class="chips">
+                  <li>NFL · CFB · NBA · MLB</li>
+                  <li>Parlays + teasers</li>
+                  <li class="chip-alt">Invite only</li>
+                </ul>
+                <div class="actions">
+                  <a
+                    class="key key-go"
+                    href="https://spicybetting.wardcrazy01894.workers.dev/"
+                    target="_blank"
+                    rel="noopener"
+                    data-play
+                    aria-label="Open Spicy Betting Simulator"
+                    >Open</a
+                  >
+                  <a
+                    class="key"
+                    href="https://github.com/wardcrazy01894/SpicyBettingSimulator"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="Spicy Betting Simulator source on GitHub"
+                    >Source</a
+                  >
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="projects" aria-labelledby="projects-h">
+          <div class="section-head">
+            <h2 id="projects-h">Also on the shelves</h2>
+            <span class="section-note">Not games, still spicy</span>
+          </div>
+
+          <ul class="project-list">
+            <li class="project" style="--c: #e0431c">
+              <span class="project-icon" aria-hidden="true">🎲</span>
+              <div class="project-body">
+                <h3>Random YouTube</h3>
+                <p>
+                  One button, one genuinely random YouTube video. A uniform draw, so it is mostly
+                  home videos with a few dozen views. That is what YouTube actually is.
+                </p>
+              </div>
+              <div class="project-links">
+                <a
+                  class="key key-go"
+                  href="https://wardcrazy01894.github.io/RandomYoutubeLinkGenerator/"
+                  target="_blank"
+                  rel="noopener"
+                  >Open</a
+                >
+                <a
+                  class="key"
+                  href="https://github.com/wardcrazy01894/RandomYoutubeLinkGenerator"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="Random YouTube source on GitHub"
+                  >Source</a
+                >
+              </div>
+            </li>
+
+            <li class="project" style="--c: #2fa84f">
+              <span class="project-icon" aria-hidden="true">⛳</span>
+              <div class="project-body">
+                <h3>TeeTimeBooker <span class="chip chip-alt">Invite only</span></h3>
+                <p>
+                  Pick your courses and time windows, and a bot books the tee time for the whole
+                  group the second the slots drop.
+                </p>
+              </div>
+              <div class="project-links">
+                <a
+                  class="key key-go"
+                  href="https://spicyteetimebooker.com"
+                  target="_blank"
+                  rel="noopener"
+                  >Open</a
+                >
+                <a
+                  class="key"
+                  href="https://github.com/wardcrazy01894/TeeTimeBooker"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="TeeTimeBooker source on GitHub"
+                  >Source</a
+                >
+              </div>
+            </li>
+
+            <li class="project" style="--c: #8b5cf6">
+              <span class="project-icon" aria-hidden="true">🏷️</span>
+              <div class="project-body">
+                <h3>SpicyDiscountSearcher</h3>
+                <p>
+                  A Chrome and Brave extension that races corporate discount codes against each
+                  other to find the cheapest rental car or hotel rate.
+                </p>
+              </div>
+              <div class="project-links">
+                <a
+                  class="key"
+                  href="https://github.com/wardcrazy01894/SpicyDiscountSearcher"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="SpicyDiscountSearcher source on GitHub"
+                  >Source</a
+                >
+              </div>
+            </li>
+
+            <li class="project" style="--c: #ff9f1c">
+              <span class="project-icon" aria-hidden="true">🏀</span>
+              <div class="project-body">
+                <h3>82And0</h3>
+                <p>
+                  Spin automation and analysis for 82-0.com: chasing the perfect 82–0 season, and
+                  the maybe-impossible 0–82.
+                </p>
+              </div>
+              <div class="project-links">
+                <a
+                  class="key"
+                  href="https://github.com/wardcrazy01894/82And0"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="82And0 source on GitHub"
+                  >Source</a
+                >
+              </div>
+            </li>
+
+            <li class="project" style="--c: #22b3a6">
+              <span class="project-icon" aria-hidden="true">🔎</span>
+              <div class="project-body">
+                <h3>LocalBusinessScanner</h3>
+                <p>
+                  Scans local businesses for web design leads: checks whether each one has a website
+                  and scores how good it is.
+                </p>
+              </div>
+              <div class="project-links">
+                <a
+                  class="key"
+                  href="https://github.com/wardcrazy01894/LocalBusinessScanner"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="LocalBusinessScanner source on GitHub"
+                  >Source</a
+                >
+              </div>
+            </li>
+
+            <li class="project" style="--c: #4c8dff">
+              <span class="project-icon" aria-hidden="true">🎧</span>
+              <div class="project-body">
+                <h3>SpotifyLocalMigrator</h3>
+                <p>
+                  Rebuilds decade-old "local files" playlists as real streaming playlists, with
+                  strict title, artist and length matching and every mismatch flagged for review.
+                </p>
+              </div>
+              <div class="project-links">
+                <a
+                  class="key"
+                  href="https://github.com/wardcrazy01894/SpotifyLocalMigrator"
+                  target="_blank"
+                  rel="noopener"
+                  aria-label="SpotifyLocalMigrator source on GitHub"
+                  >Source</a
+                >
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <section class="about" aria-labelledby="about-h">
+          <h2 id="about-h">Who is Spicy Al?</h2>
+          <p>
+            A sports fan and Michigan grad 〽️ who keeps having game ideas. Nearly all of this was
+            built with
+            <a href="https://claude.com/claude-code" target="_blank" rel="noopener">Claude Code</a>
+            doing the typing while Al plans, reviews and merges. Everything is open source on
+            <a href="https://github.com/wardcrazy01894" target="_blank" rel="noopener">GitHub</a>,
+            and every game has a bug button if something looks off.
+          </p>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>
+          Independent fan projects. Not affiliated with any league, team, school or company
+          mentioned.
+        </p>
+        <p>A Spicy Al Software Solution</p>
+      </div>
+    </footer>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "spicyalssoftwareemporium",
+  "version": "1.0.0",
+  "private": true,
+  "description": "One page that points at every game Spicy Al has made, plus the other projects.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "python3 -m http.server 8000 --directory site",
+    "lint": "html-validate site/index.html",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "node --test \"tests/*.test.mjs\""
+  },
+  "devDependencies": {
+    "html-validate": "^11.21.1",
+    "prettier": "^3.10.1"
+  }
+}
