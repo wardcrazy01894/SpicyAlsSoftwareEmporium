@@ -1,0 +1,70 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Least-privilege token. gitleaks-action needs to read PR commits on
+# pull_request events; without this it 403s.
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  lint:
+    name: lint / format
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies (locked)
+        run: npm ci
+
+      # Informational only: a new advisory in a dev tool must not wedge PRs.
+      - name: Audit dependencies (informational)
+        run: npm audit
+        continue-on-error: true
+
+      - name: Validate HTML (html-validate)
+        run: npm run lint
+
+      - name: Format check (prettier)
+        run: npm run format:check
+
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+
+      # The suite uses only node: built-ins, so there is nothing to install.
+      - name: Run tests (node --test)
+        run: npm test
+
+  secret-scan:
+    name: secret scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # full history so gitleaks can scan every commit on the branch
+
+      - name: Scan for secrets (gitleaks)
+        uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
