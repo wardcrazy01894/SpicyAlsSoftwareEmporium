@@ -24,11 +24,19 @@ const urls = [
 const isExternal = (u) => /^https?:\/\//.test(u)
 const local = urls.filter((u) => !isExternal(u) && !u.startsWith('#'))
 
+test('every link, image and script URL is a double-quoted attribute the checks can read', () => {
+  // attr() only understands name="value". A tag written any other way would
+  // silently drop out of every URL check below, so refuse it here instead.
+  for (const t of tags('a')) assert.ok(attr(t, 'href'), `unreadable href: ${t}`)
+  for (const t of tags('img')) assert.ok(attr(t, 'src'), `unreadable src: ${t}`)
+  for (const t of tags('link')) assert.ok(attr(t, 'href'), `unreadable href: ${t}`)
+})
+
 test('every local asset the page references exists', () => {
   assert.ok(local.length >= 8, 'expected the page to reference local assets')
   for (const u of local) {
     if (u === './') continue
-    assert.ok(existsSync(join(SITE, u)), `missing file: site/${u}`)
+    assert.ok(existsSync(join(SITE, u.split(/[?#]/)[0])), `missing file: site/${u}`)
   }
 })
 
@@ -59,7 +67,12 @@ const cards = html
     const body = chunk.split('</article>')[0]
     const open = `<article${body.slice(0, body.indexOf('>') + 1)}`
     const inner = (name) => body.match(new RegExp(`<${name}\\b[^>]*>`, 'g')) ?? []
-    return { open, slug: attr(open, 'data-slug'), daily: /\sdata-daily\b/.test(open), inner }
+    return {
+      open,
+      slug: attr(open, 'data-slug'),
+      daily: /\sdata-daily(?=[\s>=])/.test(open),
+      inner,
+    }
   })
 
 test('every game card has a unique slug, a cover and a play link', () => {
@@ -101,10 +114,18 @@ test('share metadata points at one site URL (a domain cutover is all-or-nothing)
   assert.match(canonical, /^https:\/\/.+\/$/, 'canonical must be https and end in /')
   assert.equal(ogUrl, canonical)
   assert.equal(ogImage, `${canonical}og-image.png`)
-  // A custom domain is live exactly when site/CNAME exists; it must agree.
+  assert.ok(existsSync(join(SITE, 'og-image.png')), 'og:image file is missing')
+  // A custom domain is live exactly when site/CNAME exists, and the tags must
+  // agree with it in both directions.
   const cname = join(SITE, 'CNAME')
   if (existsSync(cname)) {
     assert.equal(canonical, `https://${readFileSync(cname, 'utf8').trim()}/`)
+  } else {
+    assert.match(
+      canonical,
+      /^https:\/\/wardcrazy01894\.github\.io\//,
+      'custom domain without site/CNAME',
+    )
   }
 })
 

@@ -28,6 +28,11 @@
     },
   }
 
+  // Controls that only work with JavaScript ship hidden; reveal them now.
+  document.querySelectorAll('[data-needs-js]').forEach(function (el) {
+    el.hidden = false
+  })
+
   // ---- theme: auto -> light -> dark -> auto ----
   var root = document.documentElement
   var toggle = document.querySelector('[data-theme-toggle]')

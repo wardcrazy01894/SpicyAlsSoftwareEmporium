@@ -44,8 +44,9 @@ WhereHePlay:
 
    `npm test` confirms the three tags and `CNAME` agree.
 
-3. **Tell Pages**, after the PR merges (with the Actions build type the `CNAME`
-   file alone does not set the domain):
+3. **Tell Pages**, straight after the PR merges — until this runs, the share
+   tags point at a domain Pages is not serving yet (with the Actions build type
+   the `CNAME` file alone does not set the domain):
 
    ```bash
    gh api -X PUT repos/wardcrazy01894/SpicyAlsSoftwareEmporium/pages -f cname=example.com
@@ -58,7 +59,8 @@ WhereHePlay:
    ```
 
 5. Check `https://example.com/` loads, and that the old github.io address
-   redirects to it (GitHub does this automatically).
+   redirects to it (GitHub does this automatically, and likewise sends `www` to
+   the apex).
 
 6. Update the repo's homepage: `gh repo edit --homepage https://example.com/`.
 
