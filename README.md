@@ -6,14 +6,14 @@
 
 One page that points at every game Spicy Al has made, plus the other projects.
 
-### ▶ [wardcrazy01894.github.io/SpicyAlsSoftwareEmporium](https://wardcrazy01894.github.io/SpicyAlsSoftwareEmporium/)
+### ▶ [spicyalssoftwareemporium.com](https://spicyalssoftwareemporium.com/)
 
 [![CI](https://github.com/wardcrazy01894/SpicyAlsSoftwareEmporium/actions/workflows/ci.yml/badge.svg)](https://github.com/wardcrazy01894/SpicyAlsSoftwareEmporium/actions/workflows/ci.yml)
 [![deploy](https://github.com/wardcrazy01894/SpicyAlsSoftwareEmporium/actions/workflows/deploy.yml/badge.svg)](https://github.com/wardcrazy01894/SpicyAlsSoftwareEmporium/actions/workflows/deploy.yml)
 ![no build step](https://img.shields.io/badge/build_step-none-e0431c)
 ![runtime dependencies](https://img.shields.io/badge/runtime_dependencies-0-22b3a6)
 
-[![Spicy Al's Software Emporium](site/og-image.png)](https://wardcrazy01894.github.io/SpicyAlsSoftwareEmporium/)
+[![Spicy Al's Software Emporium](site/og-image.png)](https://spicyalssoftwareemporium.com/)
 
 </div>
 

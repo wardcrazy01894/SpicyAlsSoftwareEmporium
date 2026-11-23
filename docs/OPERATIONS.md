@@ -2,7 +2,7 @@
 
 ## Live site
 
-- **URL:** https://wardcrazy01894.github.io/SpicyAlsSoftwareEmporium/
+- **URL:** https://spicyalssoftwareemporium.com/
 - **Host:** GitHub Pages, deployed by `.github/workflows/deploy.yml` (Actions
   build type). Every push to `main` uploads `site/` as-is and publishes it;
   there is no build step. `workflow_dispatch` re-deploys by hand.
@@ -25,7 +25,8 @@ appears in exactly three tags in `site/index.html` — `canonical`, `og:url` and
 `og:image` — and a test fails if they disagree with each other or with
 `site/CNAME`, so a half-done cutover cannot merge.
 
-To switch to `example.com` (apex) — same recipe as CampusPinShowdown and
+The site moved to `spicyalssoftwareemporium.com` this way on 2026-11-23. To
+switch to `example.com` (apex) — same recipe as CampusPinShowdown and
 WhereHePlay:
 
 1. **DNS** at the registrar (Cloudflare: set every record to _DNS only_, not
@@ -64,6 +65,25 @@ WhereHePlay:
    the apex).
 
 6. Update the repo's homepage: `gh repo edit --homepage https://example.com/`.
+
+### Redirect domains
+
+`spicyals.com` and `spicyalsemporium.com` (and their `www`) send every request
+to the same path on `https://spicyalssoftwareemporium.com/`. GitHub Pages serves
+one custom domain per site, so the extra names redirect rather than serve a
+second copy. Each is set up in the Cloudflare dashboard, not in this repo:
+
+- **DNS:** `A @ 192.0.2.1` and `A www 192.0.2.1`, both **Proxied**. The address
+  is a placeholder that is never contacted; the record only has to exist and be
+  proxied for the rule below to run. (The main domain is the opposite: _DNS
+  only_.)
+- **Rules → Redirect Rules:** one rule, _All incoming requests_, dynamic
+  expression `concat("https://spicyalssoftwareemporium.com", http.request.uri.path)`,
+  301, preserve query string.
+
+To add another redirect domain, repeat both steps on it. To make a different
+domain the main one, run the cutover above for it and point the old main
+domain's rule at the new one.
 
 ## Repo settings
 
