@@ -36,7 +36,8 @@ WhereHePlay:
    | A     | `@`   | `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` |
    | CNAME | `www` | `wardcrazy01894.github.io`                                                 |
 
-2. **One PR** in this repo:
+2. **One PR** in this repo. `bash scripts/set-domain.sh example.com` makes
+   every edit below (and is safe to re-run):
    - add `site/CNAME` containing the bare domain on one line (`example.com`);
    - replace `https://wardcrazy01894.github.io/SpicyAlsSoftwareEmporium/` with
      `https://example.com/` in the three tags in `site/index.html`;

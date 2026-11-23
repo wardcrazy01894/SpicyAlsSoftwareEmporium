@@ -3,7 +3,9 @@
 // suite stays dependency-free.
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { existsSync, readFileSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -133,4 +135,39 @@ test('the footer ends with the house line', () => {
   const footer = html.split('<footer')[1]?.split('</footer>')[0] ?? ''
   const lines = [...footer.matchAll(/<p>([^<]+)<\/p>/g)].map((m) => m[1].trim())
   assert.equal(lines.at(-1), 'A Spicy Al Software Solution')
+})
+
+test('set-domain.sh repoints the tags, README, ops doc and CNAME in one go', () => {
+  const root = mkdtempSync(join(tmpdir(), 'set-domain-'))
+  const repo = join(SITE, '..')
+  for (const f of ['site/index.html', 'README.md', 'docs/OPERATIONS.md']) {
+    mkdirSync(dirname(join(root, f)), { recursive: true })
+    cpSync(join(repo, f), join(root, f))
+  }
+  const run = (domain) =>
+    execFileSync('bash', [join(repo, 'scripts', 'set-domain.sh'), domain], {
+      env: { ...process.env, ROOT: root },
+      stdio: 'pipe',
+    })
+  const read = (f) => readFileSync(join(root, f), 'utf8')
+  try {
+    // Twice, so the second run starts from a custom domain rather than github.io.
+    run('first.example')
+    run('spicy.example')
+    const page = read('site/index.html')
+    assert.equal(read('site/CNAME'), 'spicy.example\n')
+    assert.match(page, /<link rel="canonical" href="https:\/\/spicy\.example\/"/)
+    assert.match(page, /property="og:url"\s+content="https:\/\/spicy\.example\/"/)
+    assert.match(page, /content="https:\/\/spicy\.example\/og-image\.png"/)
+    assert.match(read('README.md'), /\[spicy\.example\]\(https:\/\/spicy\.example\/\)/)
+    assert.match(read('docs/OPERATIONS.md'), /^- \*\*URL:\*\* https:\/\/spicy\.example\/$/m)
+    for (const f of ['site/index.html', 'README.md']) {
+      assert.doesNotMatch(read(f), /first\.example|github\.io\/SpicyAlsSoftwareEmporium/, f)
+    }
+    // Other projects' github.io links are not ours to rewrite.
+    assert.match(page, /wardcrazy01894\.github\.io\/YourSchoolAllStars\//)
+    assert.throws(() => run('https://spicy.example/'), 'a URL is not a bare domain')
+  } finally {
+    rmSync(root, { recursive: true, force: true })
+  }
 })
