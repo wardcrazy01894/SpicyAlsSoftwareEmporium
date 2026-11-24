@@ -12,7 +12,10 @@
     "lint": "html-validate site/index.html",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "node --test \"tests/*.test.mjs\""
+    "test": "node --test \"tests/*.test.mjs\"",
+    "bug:secret": "npx wrangler@4 secret put GH_TOKEN -c worker/wrangler.toml",
+    "bug:deploy": "npx wrangler@4 deploy -c worker/wrangler.toml",
+    "bug:dev": "npx wrangler@4 dev -c worker/wrangler.toml --port 8789"
   },
   "devDependencies": {
     "html-validate": "^11.21.1",

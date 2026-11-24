@@ -50,14 +50,20 @@ GitHub Pages exactly as it is, and the page is complete without JavaScript.
 site/
   index.html    the page — every game and project is a block of HTML here
   styles.css    design tokens (light + dark) and layout
-  app.js        theme toggle, "Surprise me", per-browser "played today" badges
+  app.js        theme toggle, "Surprise me", "played today" badges, bug-report form
   covers/       960×600 JPEG card covers (16:10)
   og-image.png  1200×630 share image
   favicon.svg
-tests/          structural guards (node --test, no dependencies)
+worker/         emporium-bug: a Cloudflare Worker that turns a bug report into a GitHub issue
+tests/          structural guards and the worker's tests (node --test, no dependencies)
 scripts/        protect-main.sh (repo settings), set-domain.sh (domain cutover)
-docs/OPERATIONS.md   deploy, custom-domain cutover, repo settings
+docs/OPERATIONS.md   deploy, custom-domain cutover, bug reports, repo settings
 ```
+
+The footer's **🐛 Report a bug** link is the one thing with a backend. It posts
+to the worker, which files an issue here; without JavaScript, or if the worker
+is down, it hands over to GitHub's own issue form. The worker is deployed by
+hand: [`docs/OPERATIONS.md`](docs/OPERATIONS.md#bug-reports).
 
 ## 🚀 Run it
 

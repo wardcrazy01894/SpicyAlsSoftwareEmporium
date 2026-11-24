@@ -2,6 +2,10 @@ node_modules/
 .DS_Store
 *.log
 
+# Wrangler: local state, and the bug worker's local-only GitHub token.
+.wrangler/
+.dev.vars
+
 # Transient git worktrees created for isolated subagent/reviewer runs.
 .claude/worktrees/
 # Per-machine Claude Code permission grants.

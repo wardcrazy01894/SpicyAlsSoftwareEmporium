@@ -521,7 +521,8 @@
             <a href="https://claude.com/claude-code" target="_blank" rel="noopener">Claude Code</a>
             doing the typing while Al plans, reviews and merges. Everything is open source on
             <a href="https://github.com/wardcrazy01894" target="_blank" rel="noopener">GitHub</a>,
-            and every game has a bug button if something looks off.
+            and every game has a bug button if something looks off. So does this page, down in the
+            footer.
           </p>
         </section>
       </div>
@@ -533,9 +534,82 @@
           Independent fan projects. Not affiliated with any league, team, school or company
           mentioned.
         </p>
+        <p>
+          <a
+            href="https://github.com/wardcrazy01894/SpicyAlsSoftwareEmporium/issues/new"
+            target="_blank"
+            rel="noopener"
+            data-bug-report
+            >🐛 Report a bug</a
+          >
+        </p>
         <p>A Spicy Al Software Solution</p>
       </div>
     </footer>
+
+    <!-- Opened by app.js from the footer link. data-bug-endpoint is the emporium-bug
+         worker (worker/, docs/OPERATIONS.md); empty means "hand over to GitHub". -->
+    <dialog
+      class="bug-dialog"
+      aria-labelledby="bug-h"
+      data-bug-dialog
+      data-bug-endpoint="https://emporium-bug.wardcrazy01894.workers.dev"
+    >
+      <form method="dialog" data-bug-form>
+        <h2 id="bug-h">🐛 Report a bug</h2>
+        <p>
+          Tell us what you did and what went wrong on this page. For a bug inside a game, use that
+          game's own bug button.
+        </p>
+        <label for="bug-message">What happened?</label>
+        <textarea
+          id="bug-message"
+          name="message"
+          rows="6"
+          maxlength="2000"
+          required
+          placeholder="e.g. The Play button on Know Your City went nowhere."
+        ></textarea>
+        <label class="bug-check">
+          <input type="checkbox" name="diagnostics" checked />
+          Attach this page's address and your browser version
+        </label>
+        <p class="bug-note">
+          Your report is posted to the project's public issue tracker. Please leave out anything
+          personal or sensitive.
+        </p>
+        <p class="bug-error" role="alert" data-bug-error hidden>
+          Couldn't send it. Try again in a moment, or
+          <a
+            href="https://github.com/wardcrazy01894/SpicyAlsSoftwareEmporium/issues/new"
+            target="_blank"
+            rel="noopener"
+            data-bug-fallback
+            >file it on GitHub instead</a
+          >.
+        </p>
+        <div class="bug-actions">
+          <button class="key" type="button" data-bug-close>Cancel</button>
+          <button class="key key-go" type="submit" data-bug-send>Send report</button>
+        </div>
+      </form>
+      <div data-bug-done hidden>
+        <h2>🌶️ Thanks!</h2>
+        <p data-bug-done-text>Your report was sent.</p>
+        <p>
+          <a
+            href="https://github.com/wardcrazy01894/SpicyAlsSoftwareEmporium/issues"
+            target="_blank"
+            rel="noopener"
+            data-bug-done-link
+            >View the issue</a
+          >
+        </p>
+        <div class="bug-actions">
+          <button class="key key-go" type="button" data-bug-close>Done</button>
+        </div>
+      </div>
+    </dialog>
 
     <script src="app.js" defer></script>
   </body>

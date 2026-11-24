@@ -1,0 +1,30 @@
+# Bug-report Worker for Spicy Al's Software Emporium (`emporium-bug`).
+# Receives the page's "Report a bug" form and files a GitHub issue.
+# Runbook: docs/OPERATIONS.md §Bug reports. From the repo root:
+#   npm run bug:secret        # once: paste the GitHub token
+#   npm run bug:deploy
+
+name = "emporium-bug"
+main = "bug-report.mjs"
+compatibility_date = "2025-11-01"
+
+[vars]
+GH_REPO = "wardcrazy01894/SpicyAlsSoftwareEmporium"
+# Comma-separated allowed browser origins (the worker rejects others). The
+# first one is the live site: scripts/set-domain.sh rewrites it on a cutover,
+# and a test fails if it disagrees with the page's canonical URL.
+ALLOWED_ORIGIN = "https://spicyalssoftwareemporium.com,http://localhost:8000"
+
+# Per-IP rate limit — GA binding, needs NO account resource. 5 reports / 60 s
+# per IP. The worker answers 503 without it, so a deploy is never wide open.
+# namespace_id is account-wide: the games use 1xxx-4xxx, so this takes 7001.
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "7001"
+
+  [ratelimits.simple]
+  limit = 5
+  period = 60
+
+# --- Secret (`npm run bug:secret`) -------------------------------------------
+# GH_TOKEN  REQUIRED: fine-grained PAT, Issues: read & write, this repo only

@@ -124,4 +124,118 @@
       window.open(link.href, '_blank', 'noopener')
     })
   }
+
+  // ---- report a bug ----
+  // Without this the footer link simply opens a blank GitHub issue. With it,
+  // the link opens a dialog that posts to the emporium-bug worker, which files
+  // the issue; no GitHub account needed. If the worker is not configured or
+  // not answering, the reporter is handed a prefilled GitHub issue instead.
+  var bugLink = document.querySelector('[data-bug-report]')
+  var bugDialog = document.querySelector('[data-bug-dialog]')
+  if (bugLink && bugDialog && typeof bugDialog.showModal === 'function') {
+    var bugForm = bugDialog.querySelector('[data-bug-form]')
+    var bugDone = bugDialog.querySelector('[data-bug-done]')
+    var bugDoneText = bugDialog.querySelector('[data-bug-done-text]')
+    var bugDoneLink = bugDialog.querySelector('[data-bug-done-link]')
+    var bugError = bugDialog.querySelector('[data-bug-error]')
+    var bugFallback = bugDialog.querySelector('[data-bug-fallback]')
+    var bugSend = bugDialog.querySelector('[data-bug-send]')
+    var bugMessage = bugForm.elements.message
+    var bugEndpoint = bugDialog.getAttribute('data-bug-endpoint')
+    var newIssueUrl = bugLink.href
+    var sending = false
+
+    var bugContext = function () {
+      if (!bugForm.elements.diagnostics.checked) return {}
+      return { url: location.href, userAgent: navigator.userAgent }
+    }
+    // A GitHub "new issue" page with the report already typed in.
+    var prefilledIssue = function (message) {
+      var ctx = bugContext()
+      var body = [
+        message,
+        '',
+        '---',
+        'URL: ' + (ctx.url || ''),
+        'Browser: ' + (ctx.userAgent || ''),
+      ]
+      return (
+        newIssueUrl +
+        '?title=' +
+        encodeURIComponent('[bug] ' + message.split('\n')[0].slice(0, 80)) +
+        '&body=' +
+        encodeURIComponent(body.join('\n'))
+      )
+    }
+    var showDone = function (text, linkText, href) {
+      bugDoneText.textContent = text
+      bugDoneLink.textContent = linkText
+      bugDoneLink.parentNode.hidden = !href
+      if (href) bugDoneLink.href = href
+      bugForm.hidden = true
+      bugDone.hidden = false
+      bugMessage.value = ''
+    }
+    var setSending = function (on) {
+      sending = on
+      bugSend.disabled = on
+      bugSend.textContent = on ? 'Sending…' : 'Send report'
+    }
+
+    bugLink.addEventListener('click', function (e) {
+      e.preventDefault()
+      bugForm.hidden = false
+      bugDone.hidden = true
+      bugError.hidden = true
+      bugDialog.showModal()
+      bugMessage.focus()
+    })
+    bugDialog.querySelectorAll('[data-bug-close]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        bugDialog.close()
+      })
+    })
+    bugForm.addEventListener('submit', function (e) {
+      e.preventDefault()
+      var message = bugMessage.value.trim()
+      if (!message || sending) return
+      if (!bugEndpoint) {
+        var url = prefilledIssue(message)
+        window.open(url, '_blank', 'noopener')
+        showDone(
+          'Almost there: finish filing it on the GitHub page that just opened.',
+          "Open it here if it didn't",
+          url,
+        )
+        return
+      }
+      bugError.hidden = true
+      setSending(true)
+      fetch(bugEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: message, context: bugContext() }),
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error('bug endpoint HTTP ' + r.status)
+          return r.json()
+        })
+        .then(function (data) {
+          // Only link to what is really a GitHub issue.
+          var issue = data && typeof data.url === 'string' ? data.url : ''
+          showDone(
+            'Your report was sent.',
+            'View the issue',
+            issue.indexOf('https://github.com/') === 0 ? issue : '',
+          )
+        })
+        .catch(function () {
+          bugFallback.href = prefilledIssue(message)
+          bugError.hidden = false
+        })
+        .then(function () {
+          setSending(false)
+        })
+    })
+  }
 })()
