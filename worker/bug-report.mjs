@@ -11,7 +11,9 @@
  *   - content injection    → defang() (bug-report-lib.mjs)
  *   - phishing links       → the reported URL is kept only if it is from our
  *                            own origin, embedded parsed + defanged
- *   - XSS-pivot            → server-side Origin allowlist (not just CORS)
+ *   - other websites       → server-side Origin allowlist (not just CORS). A
+ *                            non-browser client can omit Origin, so this is
+ *                            not authentication; the rate limit is the cap
  *   - giant payloads       → Content-Length early reject + cap on bytes read
  *   - token blast radius   → fine-grained PAT, Issues: read & write, this repo
  *
@@ -93,7 +95,10 @@ export default {
         : urlFromAllowedOrigin(url, origins)
           ? defang(new URL(url).href)
           : '(omitted)'
-    const userAgent = String(ctx.userAgent ?? '').slice(0, MAX_UA)
+    // One line only, so it cannot forge extra footer lines.
+    const userAgent = String(ctx.userAgent ?? '')
+      .replace(/\s+/g, ' ')
+      .slice(0, MAX_UA)
 
     const issueBody = [
       defang(message),

@@ -31,9 +31,13 @@ export function cors(env, origin) {
   }
 }
 
+/** Zero-width space, written as a code point so no invisible character hides
+ *  in this file. */
+const Z = String.fromCharCode(0x200b)
+
 /** Neutralize report text so it can't ping users, break out of its block, or
  *  inject a DISGUISED live link/image into the (public) issue: @mentions,
- *  code fences, Markdown link/image syntax (inline + reference) are broken
+ *  code fences (``` and ~~~), Markdown link/image syntax (inline + reference) are broken
  *  with a zero-width space; raw HTML is entity-escaped (GitHub's sanitizer
  *  keeps allowed TAGS like <a>/<img>, only stripping unsafe attributes);
  *  issue cross-references (#123 / GH-123) are broken so a report can't spray
@@ -41,16 +45,17 @@ export function cors(env, origin) {
  *  triagers can read it — only the hidden-destination case is defanged. */
 export function defang(s) {
   return String(s)
-    .replace(/```/g, '`​`​`')
-    .replace(/@/g, '@​')
-    .replace(/!\[/g, '!​[')
-    .replace(/\]\(/g, ']​(')
-    .replace(/\]\[/g, ']​[')
-    .replace(/^(\s*\[[^\]]+\]):/gm, '$1​:')
+    .replace(/```/g, `\`${Z}\`${Z}\``)
+    .replace(/~~~/g, `~${Z}~${Z}~`)
+    .replace(/@/g, `@${Z}`)
+    .replace(/!\[/g, `!${Z}[`)
+    .replace(/\]\(/g, `]${Z}(`)
+    .replace(/\]\[/g, `]${Z}[`)
+    .replace(/^(\s*\[[^\]]+\]):/gm, `$1${Z}:`)
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/#(\d)/g, '#​$1')
-    .replace(/\bGH-(\d)/g, 'GH-​$1')
+    .replace(/#(\d)/g, `#${Z}$1`)
+    .replace(/\bGH-(\d)/g, `GH-${Z}$1`)
     .replace(/\r/g, '')
 }
 
@@ -65,7 +70,8 @@ export function urlFromAllowedOrigin(url, origins) {
 }
 
 /** Issue title from the first line of the message: "[bug] …", ≤ 80 chars,
- *  with backticks, @ and newlines flattened. */
+ *  with backticks, @ and newlines flattened and #123 / GH-123 references
+ *  broken (GitHub links those in titles too). */
 export function issueTitle(message) {
   return (
     '[bug] ' +
@@ -73,5 +79,7 @@ export function issueTitle(message) {
       .replace(/[`@\r\n]/g, ' ')
       .slice(0, 80)
       .trim()
+      .replace(/#(\d)/g, `#${Z}$1`)
+      .replace(/\bGH-(\d)/g, `GH-${Z}$1`)
   )
 }

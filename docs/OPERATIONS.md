@@ -106,10 +106,13 @@ worker is a port of CampusPinShowdown's `cps-bug`).
   the attribute empty the form opens a prefilled GitHub issue. If the worker
   errors or is unreachable the form says so and offers the prefilled issue.
 - **Hardening:** fails closed (503) without its rate-limit binding; 5 reports
-  per IP per 60 s; server-side Origin allowlist (`ALLOWED_ORIGIN`); 20 KB body
-  cap plus per-field caps; `defang()` neutralises @mentions, code fences,
-  Markdown links and images, raw HTML and `#123` cross-references; the reported
-  URL is kept only if it is from our own origin.
+  per IP per 60 s; 20 KB body cap plus per-field caps; `defang()` neutralises
+  @mentions, code fences, Markdown links and images, raw HTML and `#123`
+  cross-references; the reported URL is kept only if it is from our own origin.
+  The Origin allowlist (`ALLOWED_ORIGIN`) stops other websites posting through
+  a visitor's browser, but a script can leave the header out, so the rate limit
+  is the only cap on a determined sender. If spam ever shows up, port Turnstile
+  from CampusPinShowdown's `cps-bug`.
 
 ### Deploy the worker
 

@@ -148,21 +148,24 @@ test('worker: keeps only an own-origin URL, and defangs everything it embeds', a
     message: 'bug [click](https://evil.example/phish) @someone #12 <img src=x>',
     context: {
       url: `${ORIGIN}/?a=![beacon](https://evil.example/t.png)#<img src=x>`,
-      userAgent: '```\n@admin',
+      userAgent: '```\n@admin\nURL: https://evil.example/forged',
     },
   })
   assert.ok(sneaky.includes(`URL: ${ORIGIN}/`))
+  assert.equal(sneaky.match(/^URL: /gm).length, 1, 'the browser string cannot forge a line')
   for (const live of [/\]\(/, /!\[/, /<img/i, /@someone/, /@admin/, /#12/, /```/]) {
     assert.doesNotMatch(sneaky, live)
   }
 })
 
 test('lib: defang, issueTitle and urlFromAllowedOrigin', () => {
-  assert.equal(defang('<b>@al</b>'), '&lt;b&gt;@​al&lt;/b&gt;')
-  assert.equal(defang('[x]: https://evil.example'), '[x]​: https://evil.example')
+  assert.equal(defang('<b>@al</b>'), '&lt;b&gt;@\u200Bal&lt;/b&gt;')
+  assert.equal(defang('[x]: https://evil.example'), '[x]\u200B: https://evil.example')
   assert.equal(defang('see https://ok.example'), 'see https://ok.example', 'bare URLs stay')
   assert.equal(issueTitle('a `b` @c\nrest'), '[bug] a  b   c')
   assert.equal(issueTitle('x'.repeat(200)).length, '[bug] '.length + 80)
+  assert.equal(issueTitle('#1 GH-2 fix'), '[bug] #\u200B1 GH-\u200B2 fix', 'no cross-references')
+  assert.equal(defang('~~~'), '~\u200B~\u200B~')
   assert.equal(urlFromAllowedOrigin('https://a.example/p', ['https://a.example']), true)
   assert.equal(urlFromAllowedOrigin('https://a.example.evil.com/', ['https://a.example']), false)
 })
