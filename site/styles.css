@@ -209,7 +209,8 @@ p {
   gap: 8px;
   margin-left: auto;
 }
-.theme-toggle {
+.theme-toggle,
+.bug-key {
   padding-left: 11px;
   padding-right: 11px;
 }

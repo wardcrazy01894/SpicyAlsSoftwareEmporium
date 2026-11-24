@@ -177,11 +177,23 @@ const tomlValue = (key) => wrangler.match(new RegExp(`^${key} = "([^"]*)"$`, 'm'
 const tagWith = (marker) => html.match(new RegExp(`<[a-z]+\\b[^>]*\\s${marker}[\\s>][^>]*>`))?.[0]
 
 test('page: the bug link works without JavaScript and points at the repo the worker files in', () => {
-  const link = tagWith('data-bug-report')
-  assert.ok(link?.startsWith('<a'), 'no <a data-bug-report>')
   const repo = tomlValue('GH_REPO')
   assert.ok(repo, 'GH_REPO missing from worker/wrangler.toml')
-  assert.ok(link.includes(`href="https://github.com/${repo}/issues/new"`), link)
+  const links = html.match(/<a\b[^>]*\sdata-bug-report[\s>][^>]*>/g) ?? []
+  for (const link of links) {
+    assert.ok(link.includes(`href="https://github.com/${repo}/issues/new"`), link)
+  }
+  // One up top where people see it (a named icon button), one in the footer
+  // that is there even without JavaScript.
+  const [header, footer] = [html.split('</header>')[0], html.split('<footer')[1]]
+  const top = links.filter((l) => header.includes(l))
+  assert.equal(top.length, 1, 'expected one bug button in the header')
+  assert.match(top[0], /\saria-label="Report a bug"/)
+  assert.equal(links.filter((l) => footer.includes(l)).length, 1, 'expected a footer bug link')
+  // Both must open the form: app.js has to bind every trigger, not the first.
+  const js = readFileSync(join(ROOT, 'site', 'app.js'), 'utf8')
+  assert.match(js, /var bugLinks = document\.querySelectorAll\('\[data-bug-report\]'\)/)
+  assert.match(js, /bugLinks\.forEach\(function \(link\) \{\s+link\.addEventListener\('click'/)
   // The dialog's fallback link starts from the same place.
   assert.ok(tagWith('data-bug-fallback')?.includes(`href="https://github.com/${repo}/issues/new"`))
 })

@@ -52,6 +52,16 @@
         </nav>
         <div class="header-tools" data-needs-js hidden>
           <button class="key" type="button" data-random>🎲 Surprise me</button>
+          <a
+            class="key bug-key"
+            href="https://github.com/wardcrazy01894/SpicyAlsSoftwareEmporium/issues/new"
+            target="_blank"
+            rel="noopener"
+            aria-label="Report a bug"
+            title="Report a bug"
+            data-bug-report
+            >🐛</a
+          >
           <button
             class="key theme-toggle"
             type="button"
@@ -521,8 +531,8 @@
             <a href="https://claude.com/claude-code" target="_blank" rel="noopener">Claude Code</a>
             doing the typing while Al plans, reviews and merges. Everything is open source on
             <a href="https://github.com/wardcrazy01894" target="_blank" rel="noopener">GitHub</a>,
-            and every game has a bug button if something looks off. So does this page, down in the
-            footer.
+            and every game has a bug button if something looks off. So does this page, up top and
+            down in the footer.
           </p>
         </section>
       </div>
@@ -547,7 +557,8 @@
       </div>
     </footer>
 
-    <!-- Opened by app.js from the footer link. data-bug-endpoint is the emporium-bug
+    <!-- Opened by app.js from the header 🐛 button and the footer link.
+         data-bug-endpoint is the emporium-bug
          worker (worker/, docs/OPERATIONS.md); empty means "hand over to GitHub". -->
     <dialog
       class="bug-dialog"
