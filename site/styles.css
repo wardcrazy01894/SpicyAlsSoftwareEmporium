@@ -469,6 +469,82 @@ section[id] {
 .site-footer p + p {
   margin-top: 4px;
 }
+.site-footer a {
+  font-weight: 700;
+}
+
+/* ---------- bug report dialog ---------- */
+.bug-dialog {
+  width: min(100% - 32px, 520px);
+  max-height: calc(100dvh - 32px);
+  padding: 22px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--cap);
+}
+.bug-dialog::backdrop {
+  background: rgb(23 16 12 / 0.55);
+}
+.bug-dialog form,
+.bug-dialog [data-bug-done] {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.bug-dialog h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.bug-dialog label {
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+.bug-dialog textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  resize: vertical;
+}
+.bug-dialog .bug-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400;
+}
+.bug-check input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--chili);
+}
+.bug-note {
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+}
+.bug-error {
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--chili) 14%, var(--surface));
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+.bug-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+.bug-actions .key:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
 
 @media (max-width: 720px) {
   .site-nav {

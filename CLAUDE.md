@@ -22,6 +22,8 @@ deploys, the custom-domain cutover and repo settings.
   them only as part of the cutover in `docs/OPERATIONS.md` §Custom domain.
 - **No build step and no runtime dependencies.** The page must be complete
   without JavaScript; `app.js` only enhances.
+- **The bug-report worker (`worker/`) deploys by hand**, never on merge: after
+  changing it, `npm run bug:deploy` (`docs/OPERATIONS.md` §Bug reports).
 - The footer's last line is **"A Spicy Al Software Solution"** (test-pinned).
 - A behavior change comes with a test in `tests/` that fails without it, and
   with its docs updated in the same PR.

@@ -137,10 +137,10 @@ test('the footer ends with the house line', () => {
   assert.equal(lines.at(-1), 'A Spicy Al Software Solution')
 })
 
-test('set-domain.sh repoints the tags, README, ops doc and CNAME in one go', () => {
+test('set-domain.sh repoints the tags, README, ops doc, worker origin and CNAME in one go', () => {
   const root = mkdtempSync(join(tmpdir(), 'set-domain-'))
   const repo = join(SITE, '..')
-  for (const f of ['site/index.html', 'README.md', 'docs/OPERATIONS.md']) {
+  for (const f of ['site/index.html', 'README.md', 'docs/OPERATIONS.md', 'worker/wrangler.toml']) {
     mkdirSync(dirname(join(root, f)), { recursive: true })
     cpSync(join(repo, f), join(root, f))
   }
@@ -161,6 +161,11 @@ test('set-domain.sh repoints the tags, README, ops doc and CNAME in one go', () 
     assert.match(page, /content="https:\/\/spicy\.example\/og-image\.png"/)
     assert.match(read('README.md'), /\[spicy\.example\]\(https:\/\/spicy\.example\/\)/)
     assert.match(read('docs/OPERATIONS.md'), /^- \*\*URL:\*\* https:\/\/spicy\.example\/$/m)
+    // The bug-report worker must accept reports from the new origin.
+    assert.match(
+      read('worker/wrangler.toml'),
+      /^ALLOWED_ORIGIN = "https:\/\/spicy\.example,http:\/\/localhost:8000"$/m,
+    )
     for (const f of ['site/index.html', 'README.md']) {
       assert.doesNotMatch(read(f), /first\.example|github\.io\/SpicyAlsSoftwareEmporium/, f)
     }

@@ -35,6 +35,12 @@ NEW="$new" perl -pi -e 's/^(- \*\*URL:\*\* ).*$/$1$ENV{NEW}/' "$root/docs/OPERAT
 
 printf '%s\n' "$domain" >"$root/site/CNAME"
 
+# The bug-report worker only accepts reports from the site's own origin.
+wrangler="$root/worker/wrangler.toml"
+if [[ -f "$wrangler" ]]; then
+  OLD="${old%/}" NEW="https://$domain" perl -pi -e 's/\Q$ENV{OLD}\E(?![\w.-])/$ENV{NEW}/g' "$wrangler"
+fi
+
 cat <<EOF
 Site URL: $old -> $new
 
@@ -46,4 +52,5 @@ Next (docs/OPERATIONS.md §Custom domain):
   4. Once the certificate is issued:
        gh api -X PUT repos/wardcrazy01894/SpicyAlsSoftwareEmporium/pages -F https_enforced=true
   5. gh repo edit --homepage $new
+  6. npm run bug:deploy   (the bug-report worker's origin allowlist changed)
 EOF
