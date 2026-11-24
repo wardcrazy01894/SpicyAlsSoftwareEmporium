@@ -127,10 +127,11 @@
 
   // ---- report a bug ----
   // Without this the footer link simply opens a blank GitHub issue. With it,
-  // the link opens a dialog that posts to the emporium-bug worker, which files
-  // the issue; no GitHub account needed. If the worker is not configured or
+  // that link and the header's 🐛 button open a dialog that posts to the
+  // emporium-bug worker, which files the issue; no GitHub account needed. If the worker is not configured or
   // not answering, the reporter is handed a prefilled GitHub issue instead.
-  var bugLink = document.querySelector('[data-bug-report]')
+  var bugLinks = document.querySelectorAll('[data-bug-report]')
+  var bugLink = bugLinks[0]
   var bugDialog = document.querySelector('[data-bug-dialog]')
   if (bugLink && bugDialog && typeof bugDialog.showModal === 'function') {
     var bugForm = bugDialog.querySelector('[data-bug-form]')
@@ -194,13 +195,15 @@
       bugSend.textContent = on ? 'Sending…' : 'Send report'
     }
 
-    bugLink.addEventListener('click', function (e) {
-      e.preventDefault()
-      bugForm.hidden = false
-      bugDone.hidden = true
-      bugError.hidden = true
-      bugDialog.showModal()
-      bugMessage.focus()
+    bugLinks.forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault()
+        bugForm.hidden = false
+        bugDone.hidden = true
+        bugError.hidden = true
+        bugDialog.showModal()
+        bugMessage.focus()
+      })
     })
     bugDialog.querySelectorAll('[data-bug-close]').forEach(function (b) {
       b.addEventListener('click', function () {
