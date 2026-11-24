@@ -126,8 +126,8 @@
   }
 
   // ---- report a bug ----
-  // Without this the footer link simply opens a blank GitHub issue. With it,
-  // that link and the header's 🐛 button open a dialog that posts to the
+  // Without this the footer link simply opens a blank GitHub issue (and the
+  // header's 🐛 button stays hidden). With it, both open a dialog that posts to the
   // emporium-bug worker, which files the issue; no GitHub account needed. If the worker is not configured or
   // not answering, the reporter is handed a prefilled GitHub issue instead.
   var bugLinks = document.querySelectorAll('[data-bug-report]')

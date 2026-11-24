@@ -190,6 +190,10 @@ test('page: the bug link works without JavaScript and points at the repo the wor
   assert.equal(top.length, 1, 'expected one bug button in the header')
   assert.match(top[0], /\saria-label="Report a bug"/)
   assert.equal(links.filter((l) => footer.includes(l)).length, 1, 'expected a footer bug link')
+  // Both must open the form: app.js has to bind every trigger, not the first.
+  const js = readFileSync(join(ROOT, 'site', 'app.js'), 'utf8')
+  assert.match(js, /var bugLinks = document\.querySelectorAll\('\[data-bug-report\]'\)/)
+  assert.match(js, /bugLinks\.forEach\(function \(link\) \{\s+link\.addEventListener\('click'/)
   // The dialog's fallback link starts from the same place.
   assert.ok(tagWith('data-bug-fallback')?.includes(`href="https://github.com/${repo}/issues/new"`))
 })
