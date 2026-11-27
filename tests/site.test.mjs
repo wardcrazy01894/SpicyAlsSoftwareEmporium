@@ -133,8 +133,9 @@ test('share metadata points at one site URL (a domain cutover is all-or-nothing)
 
 test('the footer ends with the house line', () => {
   const footer = html.split('<footer')[1]?.split('</footer>')[0] ?? ''
-  const lines = [...footer.matchAll(/<p>([^<]+)<\/p>/g)].map((m) => m[1].trim())
-  assert.equal(lines.at(-1), 'A Spicy Al Software Solution')
+  const last = [...footer.matchAll(/<p>([\s\S]*?)<\/p>/g)].at(-1)?.[1] ?? ''
+  assert.equal(last.replace(/<[^>]+>/g, '').trim(), 'A Spicy Al Software Solution')
+  assert.match(last, /<a [^>]*href="https:\/\/spicyals\.com"/)
 })
 
 test('set-domain.sh repoints the tags, README, ops doc, worker origin and CNAME in one go', () => {
