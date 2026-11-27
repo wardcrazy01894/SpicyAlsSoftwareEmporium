@@ -474,6 +474,18 @@ section[id] {
   font-weight: 700;
 }
 
+/* The studio credit links to the hub but keeps reading as the plain line it
+   always was: no colour change, underline only on hover / keyboard focus. */
+.site-footer a.studio-credit {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: none;
+}
+.site-footer a.studio-credit:hover,
+.site-footer a.studio-credit:focus-visible {
+  text-decoration: underline;
+}
+
 /* ---------- bug report dialog ---------- */
 .bug-dialog {
   width: min(100% - 32px, 520px);
